@@ -102,9 +102,9 @@ export const Login = async (req: Request, res: Response) => {
 };
 
 export const Logout = async (req: Request, res: Response) => {
-  const { refreshToken } = req.body;
+  const userId = req.userId;
   try {
-    const user = await User.findOne({ refreshToken });
+    const user = await User.findOne({ _id: userId });
     if (!user) {
       throw new Error("User is not found in database");
     }
@@ -125,7 +125,8 @@ export const Logout = async (req: Request, res: Response) => {
 };
 
 export const updateProfile = async (req: Request, res: Response) => {
-  const { profilePic, userId } = req.body;
+  const { profilePic } = req.body;
+  const userId = req.userId;
   try {
     if (!profilePic) {
       return res.status(400).json({ message: "Profile picture is required" });
@@ -137,7 +138,7 @@ export const updateProfile = async (req: Request, res: Response) => {
       useUniqueFileName: true,
     });
 
-    const updatedUser = User.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       userId,
       {
         profilePic: uploadResponse.url,
@@ -156,9 +157,11 @@ export const updateProfile = async (req: Request, res: Response) => {
   }
 };
 
-export const checkAuth = (req: Request, res: Response) => {
+export const checkAuth = async (req: Request, res: Response) => {
+  const userId = req.userId;
   try {
-    res.status(200).json({ message: "Token is Valid"});
+    const user = await User.findById({ _id: userId });
+    res.status(200).json(user);
   } catch (error) {
     if (error instanceof Error) {
       console.log("Error in check authentication controller: ", error.message);

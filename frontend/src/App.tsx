@@ -7,17 +7,17 @@ import Login from "./pages/Login";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import type { FC } from "react";
-import useAuthStore from "./Store/useAuthStore";
+import useAuthStore from "./store/useAuthStore";
+import useThemeStore from "./store/useThemeStore";
 import { Loader } from "lucide-react";
 import { Toaster } from "react-hot-toast";
 
 const App: FC = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-
+  const { theme } = useThemeStore();
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
-  console.log(authUser);
 
   if (isCheckingAuth && !authUser) {
     return (
@@ -28,7 +28,7 @@ const App: FC = () => {
   }
 
   return (
-    <div>
+    <div data-theme={theme}>
       <Navbar />
       <Routes>
         <Route

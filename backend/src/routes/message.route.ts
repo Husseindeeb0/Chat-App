@@ -7,7 +7,7 @@ import {
 } from "../controllers/message.controller.ts";
 const router = express.Router();
 
-router.get("/user", verifyJWT, getUsersForSidebar);
+router.get("/users", verifyJWT, getUsersForSidebar);
 router.get("/:id", verifyJWT, getMessages);
 router.post("/send/:id", verifyJWT, sendMessages);
 

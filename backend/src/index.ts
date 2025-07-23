@@ -15,13 +15,13 @@ const app: Application = express(); // application represents all possible types
 const PORT: number = parseInt(process.env.PORT || "5000", 10);
 
 // Middlewares
-app.use(express.json());
+app.use(express.json({ limit: '5mb' }));
 app.use(cookieParser());
 app.use(cors(corsOptions))
 
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/message", messageRoutes);
+app.use("/api/messages", messageRoutes);
 
 // Start server
 app.listen(PORT, () => {

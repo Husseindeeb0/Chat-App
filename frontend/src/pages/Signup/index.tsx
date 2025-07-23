@@ -1,5 +1,5 @@
 import { useState, type FC } from "react";
-import useAuthStore from "../../Store/useAuthStore";
+import useAuthStore from "../../store/useAuthStore";
 import {
   Lock,
   Mail,
@@ -166,5 +166,4 @@ const Signup: FC = () => {
     </div>
   );
 };
-// https://github.com/Husseindeeb0/Chat-App.git/
 export default Signup;
