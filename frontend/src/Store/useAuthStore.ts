@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import type { AuthStore } from "../types";
 
-const useAuthStore = create<AuthStore>((set) => ({
+const useAuthStore = create<AuthStore>((set, get) => ({
   authUser: null,
   isSigningUp: false,
   isLoggingIn: false,
@@ -46,6 +46,7 @@ const useAuthStore = create<AuthStore>((set) => ({
       const res = await axiosInstance.post("/auth/login", data);
       set({ authUser: res.data });
       toast.success("Logged in successfully");
+      // get().connectSocket()
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message);
@@ -86,6 +87,8 @@ const useAuthStore = create<AuthStore>((set) => ({
       set({ isUpdatingProfile: false });
     }
   },
+
+  connectSocket: () => {},
 }));
 
 export default useAuthStore;

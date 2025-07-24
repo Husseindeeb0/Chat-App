@@ -4,7 +4,7 @@ import { axiosInstance } from "../lib/axios";
 import { AxiosError } from "axios";
 import type { ChatStore } from "../types";
 
-const useChatStore = create<ChatStore>((set) => ({
+const useChatStore = create<ChatStore>((set, get) => ({
   messages: [],
   users: [],
   selectedUser: null,
@@ -30,6 +30,8 @@ const useChatStore = create<ChatStore>((set) => ({
   getMessages: async (userId) => {
     set({ isMessagesLoading: true });
     try {
+      const res = await axiosInstance.get(`/messages/${userId}`);
+      set({ messages: res.data });
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message);
@@ -38,6 +40,20 @@ const useChatStore = create<ChatStore>((set) => ({
       }
     } finally {
       set({ isMessagesLoading: false });
+    }
+  },
+
+  sendMessage: async (messageData) => {
+    const { selectedUser, messages } = get();
+    try {
+      const res = await axiosInstance.post(`/messages/send/${selectedUser?._id}`, messageData);
+      set({ messages: [...messages, res.data]})
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+      } else {
+        toast.error("Sending message failed")
+      }
     }
   },
 

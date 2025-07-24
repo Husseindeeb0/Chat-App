@@ -6,12 +6,12 @@ import connectDB from "./config/db.ts";
 import cookieParser = require("cookie-parser");
 import cors from "cors";
 import corsOptions from "./config/corsOptions.ts";
+import { app, server } from "./config/socket.ts";
 
 // Load environment variables
 dotenv.config();
 
 // Initialize app and types
-const app: Application = express(); // application represents all possible types exist in express app
 const PORT: number = parseInt(process.env.PORT || "5000", 10);
 
 // Middlewares
@@ -24,7 +24,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
 // Start server
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   connectDB();
 });

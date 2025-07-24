@@ -9,7 +9,7 @@ export const getUsersForSidebar = async (req: Request, res: Response) => {
     const loggedUserId = req.userId;
     const filteredUsers = await User.find({
       _id: { $ne: loggedUserId },
-    }).select("_password");
+    }).select("-password");
 
     res.status(200).json(filteredUsers);
   } catch (error) {

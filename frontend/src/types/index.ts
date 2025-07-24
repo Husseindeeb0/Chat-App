@@ -46,16 +46,22 @@ export interface ThemeStore {
   setTheme: (theme: string) => void,
 }
 
-export interface Message {
+export interface Messages {
   _id: string;
   senderId: string;
   receiverId: string;
-  text: string;
+  image: string;
+  text: string | null;
   createdAt: string;
 }
 
+export interface newMessage {
+  text: string;
+  image: string | null;
+}
+
 export interface ChatStore {
-  messages: Message[];
+  messages: Messages[];
   users: User[];
   selectedUser: User | null;
   isUsersLoading: boolean;
@@ -63,5 +69,6 @@ export interface ChatStore {
 
   getUsers: () => Promise<void>;
   getMessages: (userId: string) => Promise<void>;
+  sendMessage: (messageData: newMessage) => Promise<void>;
   setSelectedUser: (selectedUser: User | null) => void;
 }
