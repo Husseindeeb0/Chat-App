@@ -3,6 +3,7 @@ import User from "../models/user.model.ts";
 import Message from "../models/message.model.ts";
 import imagekit from "../config/imageKit.ts";
 import { v4 as uuidv4 } from "uuid";
+import { getReceiverSocketId, io } from "../config/socket.ts";
 
 export const getUsersForSidebar = async (req: Request, res: Response) => {
   try {
@@ -26,14 +27,12 @@ export const getMessages = async (req: Request, res: Response) => {
   try {
     const { id: userToChatId } = req.params;
     const myId = req.userId;
-
     const messages = await Message.find({
       $or: [
-        { senderId: myId, recieverId: userToChatId },
-        { senderId: userToChatId, recieverId: myId },
+        { senderId: myId, receiverId: userToChatId },
+        { senderId: userToChatId, receiverId: myId },
       ],
     });
-
     res.status(200).json(messages);
   } catch (error) {
     if (error instanceof Error) {
@@ -55,7 +54,7 @@ export const sendMessages = async (req: Request, res: Response) => {
   try {
     if (image) {
       const fileName = `message_${senderId}_${receiverId}_${Date.now()}_${uuidv4()}`;
-      
+
       const uploadResponse = await imagekit.upload({
         file: image,
         fileName,
@@ -70,11 +69,13 @@ export const sendMessages = async (req: Request, res: Response) => {
       receiverId,
       text,
       image: imageUrl,
-    })
-
+    });
     await newMessage.save();
 
-    // ToDO: realtime functionality goes here => socket.io
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
 
     res.status(201).json(newMessage);
   } catch (error) {

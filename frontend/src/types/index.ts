@@ -1,3 +1,5 @@
+import { Socket } from "socket.io-client";
+
 export interface SignupFormData {
   fullName: string;
   email: string;
@@ -33,12 +35,15 @@ export interface AuthStore {
   isUpdatingProfile: boolean;
   isCheckingAuth: boolean;
   onlineUsers: string[];
+  socket: Socket | null;
 
   checkAuth: () => Promise<void>;
   signup: (formData: SignupFormData) => Promise<void>;
   login: (formData: LoginFormData) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (formData: UpdateProfileData) => Promise<void>;
+  connectSocket: () => void;
+  disconnectSocket: () => void;
 }
 
 export interface ThemeStore {
@@ -70,5 +75,7 @@ export interface ChatStore {
   getUsers: () => Promise<void>;
   getMessages: (userId: string) => Promise<void>;
   sendMessage: (messageData: newMessage) => Promise<void>;
+  subscribeToMessages: () => void;
+  unsubscribeFromMessages: () => void;
   setSelectedUser: (selectedUser: User | null) => void;
 }
