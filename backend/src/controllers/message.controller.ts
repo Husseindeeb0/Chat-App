@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import User from "../models/user.model.ts";
-import Message from "../models/message.model.ts";
-import imagekit from "../config/imageKit.ts";
+import User from "../models/user.model";
+import Message from "../models/message.model";
+import imagekit from "../config/imageKit";
 import { v4 as uuidv4 } from "uuid";
-import { getReceiverSocketId, io } from "../config/socket.ts";
+import { getReceiverSocketId, io } from "../config/socket";
 
 export const getUsersForSidebar = async (req: Request, res: Response) => {
   try {

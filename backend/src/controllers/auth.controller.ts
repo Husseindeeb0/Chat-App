@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import User from "../models/user.model.ts";
+import User from "../models/user.model";
 import bcrypt from "bcryptjs";
-import { generateAccessToken, generateRefreshToken } from "../config/utils.ts";
-import { IUser } from "../models/user.model.ts";
-import imagekit from "../config/imageKit.ts";
+import { generateAccessToken, generateRefreshToken } from "../config/utils";
+import { IUser } from "../models/user.model";
+import imagekit from "../config/imageKit";
 
 // Response type means returning value like this which is an http response object: return res.status(...).json(...)
 export const Signup = async (

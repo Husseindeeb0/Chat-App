@@ -1,12 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
-import authRoutes from "./routes/auth.route.ts";
-import messageRoutes from "./routes/message.route.ts";
-import connectDB from "./config/db.ts";
+import authRoutes from "./routes/auth.route";
+import messageRoutes from "./routes/message.route";
+import connectDB from "./config/db";
 import cookieParser = require("cookie-parser");
 import cors from "cors";
-import corsOptions from "./config/corsOptions.ts";
-import { app, server } from "./config/socket.ts";
+import corsOptions from "./config/corsOptions";
+import { app, server } from "./config/socket";
 
 // Load environment variables
 dotenv.config();

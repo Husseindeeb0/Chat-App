@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import type { AuthStore } from "../types";
 import { io } from "socket.io-client";
 
-const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5000" : "/";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const useAuthStore = create<AuthStore>((set, get) => ({
   authUser: null,

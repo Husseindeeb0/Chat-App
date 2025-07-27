@@ -7,12 +7,12 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173", "http://localhost:3000"],
   },
 });
 
 export function getReceiverSocketId(userId: string): string {
-  return userSocketMap[userId]
+  return userSocketMap[userId];
 }
 
 // User to store online users
@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
     userSocketMap[userId] = socket.id;
   }
   // io.email() is used to send events to all the connected clients
-  io.emit("getOnlineUsers", Object.keys(userSocketMap))
+  io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
   socket.on("disconnect", () => {
     console.log("A user is disconnected", socket.id);

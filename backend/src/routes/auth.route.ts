@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
-import {Signup, Login, Logout, updateProfile, checkAuth} from "../controllers/auth.controller.ts";
-import verifyJWT from "../middleware/verifyJWT.middleware.ts";
+import {Signup, Login, Logout, updateProfile, checkAuth} from "../controllers/auth.controller";
+import verifyJWT from "../middleware/verifyJWT.middleware";
 
 router.post("/signup", Signup);
 router.post("/login", Login);

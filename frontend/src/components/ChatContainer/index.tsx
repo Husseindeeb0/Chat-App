@@ -18,6 +18,7 @@ const ChatContainer: FC = () => {
   } = useChatStore();
   const { authUser } = useAuthStore();
   const messageEndRef = useRef<HTMLDivElement | null>(null);
+  const safeMessages = Array.isArray(messages) ? messages : [];
 
   useEffect(() => {
     getMessages(selectedUser?._id ?? "");
@@ -47,7 +48,7 @@ const ChatContainer: FC = () => {
     <div className="flex-1 flex flex-col overflow-auto">
       <ChatHeader />
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.length > 0 ? (
+        {safeMessages.length > 0 ? (
           messages.map((message) => (
             <div
               key={message._id}
