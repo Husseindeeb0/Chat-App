@@ -2,9 +2,9 @@ import type { AuthImagePatternProps } from "../../types";
 
 const AuthImagePattern = ({ title, subtitle }: AuthImagePatternProps) => {
   return (
-    <div className="hidden lg:flex items-center justify-center bg-base-200 pt-2 px-10 mt-16">
+    <div className="hidden max-h-screen lg:flex items-center justify-center bg-base-200 pt-2 px-10 mt-16">
       <div className="max-w-md text-center">
-        <div className="grid grid-cols-3 gap-2 mb-3">
+        <div className="grid grid-cols-3 gap-2 mb-2">
           {[...Array(9)].map((_, i) => (
             <div
               key={i}
@@ -14,7 +14,7 @@ const AuthImagePattern = ({ title, subtitle }: AuthImagePatternProps) => {
             />
           ))}
         </div>
-        <h2 className="text-2xl font-bold mb-4">{title}</h2>
+        <h2 className="text-2xl font-bold mb-2">{title}</h2>
         <p className="text-base-content/60">{subtitle}</p>
       </div>
     </div>

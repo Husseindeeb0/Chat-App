@@ -46,7 +46,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   },
 
   login: async (data) => {
-    set({ isSigningUp: true });
+    set({ isLoggingIn: true });
     try {
       const res = await axiosInstance.post("/auth/login", data);
       set({ authUser: res.data });

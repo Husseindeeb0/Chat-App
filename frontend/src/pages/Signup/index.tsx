@@ -42,12 +42,12 @@ const Signup: FC = () => {
   };
 
   return (
-    <div className="min-h-screen grid lg:grid-cols-2">
+    <div className="h-screen grid lg:grid-cols-2">
       {/* left side */}
-      <div className="flex flex-col justify-center items-center p-6 sm:p-12">
-        <div className="w-full max-w-md space-y-8">
+      <div className="flex flex-col justify-center mt-10 items-center p-6 sm:p-12 overflow-hidden">
+        <div className="w-full max-w-md space-y-4">
           {/* Logo */}
-          <div className="text-center mb-8 flex flex-col items-center gap-2 group">
+          <div className="text-center mb-4 flex flex-col items-center gap-2 group">
             <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
               <MessageSquare className="size-6 text-primary" />
             </div>
@@ -56,7 +56,7 @@ const Signup: FC = () => {
               Get Started with your free account
             </p>
           </div>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* FullName */}
             <div className="form-control">
               <label className="label">
