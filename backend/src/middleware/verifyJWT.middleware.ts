@@ -18,7 +18,9 @@ interface JWTPayload {
 const verifyJWT = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.cookies.access_token;
+    console.log(token)
     const accessSecret = process.env.ACCESS_SECRET_TOKEN;
+    console.log(accessSecret);
 
     if (!accessSecret) {
       throw new Error(

@@ -17,7 +17,7 @@ export const generateAccessToken = (userId: string, res: Response): string => {
   res.cookie("access_token", accessToken, {
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
     httpOnly: true, // Prevents XSS atatcks cross-site scripting attacks
-    sameSite: "strict", // CSRF attacks cross-site request forgery attacks
+    sameSite: "none", // CSRF attacks cross-site request forgery attacks
     secure: process.env.NODE_ENV !== "development",
   });
 
@@ -40,7 +40,7 @@ export const generateRefreshToken = (userId: string, res: Response): string => {
   res.cookie("refresh_token", refreshToken, {
     maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: "strict",
+    sameSite: "none",
     secure: process.env.NODE_ENV !== "development",
   });
 
