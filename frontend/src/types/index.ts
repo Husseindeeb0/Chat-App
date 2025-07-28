@@ -51,7 +51,7 @@ export interface ThemeStore {
   setTheme: (theme: string) => void,
 }
 
-export interface Messages {
+export interface Message {
   _id: string;
   senderId: string;
   receiverId: string;
@@ -66,7 +66,7 @@ export interface newMessage {
 }
 
 export interface ChatStore {
-  messages: Messages[];
+  messages: Message[];
   users: User[];
   selectedUser: User | null;
   isUsersLoading: boolean;

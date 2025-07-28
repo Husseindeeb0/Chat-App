@@ -3,6 +3,7 @@ import useAuthStore from "../../store/useAuthStore";
 import useChatStore from "../../store/useChatStore";
 import SidebarSkeleton from "../Skeletons/SidebarSkeleton";
 import { Users } from "lucide-react";
+import type { User } from "../../types";
 
 const Sidebar: FC = () => {
   const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } =
@@ -16,10 +17,10 @@ const Sidebar: FC = () => {
   }, [getUsers]);
 
   const onlineUsersCount = onlineUsers.filter(
-    (id) => id !== authUser?._id
+    (id: string) => id !== authUser?._id
   ).length;
   const filteredUsers = showOnlineOnly
-    ? users.filter((user) => onlineUsers.includes(user._id))
+    ? users.filter((user: User) => onlineUsers.includes(user._id))
     : users;
 
   if (isUsersLoading) return <SidebarSkeleton />;
@@ -50,7 +51,7 @@ const Sidebar: FC = () => {
 
       <div className="overflow-y-auto w-full py-3">
         {Array.isArray(filteredUsers) &&
-          filteredUsers.map((user) => (
+          filteredUsers.map((user: User) => (
             <button
               key={user._id}
               onClick={() => setSelectedUser(user)}

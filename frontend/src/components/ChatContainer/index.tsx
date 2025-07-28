@@ -6,6 +6,7 @@ import MessageSkeleton from "../Skeletons/MessageSkeleton";
 import useAuthStore from "../../store/useAuthStore";
 import formatMessageTime from "../../lib/utils";
 import { MessageSquare } from "lucide-react";
+import type { Message } from "../../types";
 
 const ChatContainer: FC = () => {
   const {
@@ -49,7 +50,7 @@ const ChatContainer: FC = () => {
       <ChatHeader />
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {safeMessages.length > 0 ? (
-          messages.map((message) => (
+          messages.map((message: Message) => (
             <div
               key={message._id}
               className={`chat ${
