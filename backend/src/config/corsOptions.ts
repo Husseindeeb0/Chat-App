@@ -4,6 +4,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
   "https://litechat-frontend.onrender.com",
+  "https://litechats.netlify.app",
 ];
 
 const corsOptions: CorsOptions = {
