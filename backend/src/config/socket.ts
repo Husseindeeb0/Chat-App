@@ -10,7 +10,6 @@ const io = new Server(server, {
     origin: [
       "http://localhost:5173",
       "http://localhost:3000",
-      "https://litechat-frontend.onrender.com",
       "https://litechats.netlify.app",
     ],
     credentials: true,
