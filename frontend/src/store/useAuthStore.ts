@@ -18,7 +18,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   isCheckingAuth: true,
   checkAuth: async () => {
     try {
-      const res = await axiosInstance.get("/auth/verifyJWT");
+      const res = await axiosInstance.get("/api/auth/verifyJWT");
       set({ authUser: res.data });
       get().connectSocket();
     } catch (error) {
@@ -31,7 +31,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   signup: async (data) => {
     set({ isSigningUp: true });
     try {
-      const res = await axiosInstance.post("/auth/signup", data);
+      const res = await axiosInstance.post("/api/auth/signup", data);
       set({ authUser: res.data });
       toast.success("Account created successfully");
     } catch (error) {
@@ -48,7 +48,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   login: async (data) => {
     set({ isLoggingIn: true });
     try {
-      const res = await axiosInstance.post("/auth/login", data);
+      const res = await axiosInstance.post("/api/auth/login", data);
       set({ authUser: res.data });
       toast.success("Logged in successfully");
       get().connectSocket();
@@ -66,7 +66,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   logout: async () => {
     try {
       console.log(BASE_URL)
-      await axiosInstance.post("/auth/logout");
+      await axiosInstance.post("/api/auth/logout");
       set({ authUser: null });
       toast.success("Logged out successfully");
       get().disconnectSocket();
@@ -82,7 +82,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   updateProfile: async (data) => {
     set({ isUpdatingProfile: true });
     try {
-      const res = await axiosInstance.put("/auth/update-profile", data);
+      const res = await axiosInstance.put("/api/auth/update-profile", data);
       set({ authUser: res.data });
     } catch (error) {
       if (error instanceof AxiosError) {

@@ -15,7 +15,7 @@ const useChatStore = create<ChatStore>((set, get) => ({
   getUsers: async () => {
     set({ isUsersLoading: true });
     try {
-      const res = await axiosInstance.get("/messages/users");
+      const res = await axiosInstance.get("/api/messages/users");
       set({ users: res.data });
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -31,7 +31,7 @@ const useChatStore = create<ChatStore>((set, get) => ({
   getMessages: async (userId) => {
     set({ isMessagesLoading: true });
     try {
-      const res = await axiosInstance.get(`/messages/${userId}`);
+      const res = await axiosInstance.get(`/api/messages/${userId}`);
       set({ messages: res.data });
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -48,7 +48,7 @@ const useChatStore = create<ChatStore>((set, get) => ({
     const { selectedUser, messages } = get();
     try {
       const res = await axiosInstance.post(
-        `/messages/send/${selectedUser?._id}`,
+        `/api/messages/send/${selectedUser?._id}`,
         messageData
       );
       set({ messages: [...messages, res.data] });

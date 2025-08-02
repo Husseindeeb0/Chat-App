@@ -19,19 +19,16 @@ const verifyJWT = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.cookies.access_token;
     const accessSecret = process.env.ACCESS_SECRET_TOKEN;
-
     if (!accessSecret) {
       throw new Error(
         "ACCESS_SECRET_TOKEN is not defined in environment variables"
       );
     }
-
     if (!token) {
       return res
         .status(401)
         .json({ message: "Unauthorized - No Token Provided" });
     }
-
     jwt.verify(
       token,
       accessSecret,
