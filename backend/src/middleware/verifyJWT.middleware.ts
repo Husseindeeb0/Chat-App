@@ -17,32 +17,30 @@ interface JWTPayload {
 
 const verifyJWT = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.cookies.access_token;
+    const accessToken = req.cookies.access_token;
     const accessSecret = process.env.ACCESS_SECRET_TOKEN;
     if (!accessSecret) {
-      throw new Error(
-        "ACCESS_SECRET_TOKEN is not defined in environment variables"
-      );
+      return res
+        .status(500)
+        .json({ message: "Server misconfiguration: missing access secret" });
     }
-    if (!token) {
+    if (!accessToken) {
       return res
         .status(401)
-        .json({ message: "Unauthorized - No Token Provided" });
+        .json({ message: "Unauthorized - Access Token Not Provided" });
     }
     jwt.verify(
-      token,
+      accessToken,
       accessSecret,
       (
         error: jwt.VerifyErrors | null,
         decoded: string | jwt.JwtPayload | undefined
       ) => {
         if (error) {
-          return res
-            .status(403)
-            .json({
-              status: "failed",
-              message: `Unauthorized: ${error.message}`,
-            });
+          return res.status(403).json({
+            status: "failed",
+            message: `Unauthorized: ${error.message}`,
+          });
         }
 
         // Type guard to ensure decoded is an object and has userId

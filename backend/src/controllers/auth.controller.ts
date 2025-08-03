@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import jwt from "jsonwebtoken";
 import User from "../models/user.model";
 import bcrypt from "bcryptjs";
 import { generateAccessToken, generateRefreshToken } from "../config/utils";
@@ -169,5 +170,54 @@ export const checkAuth = async (req: Request, res: Response) => {
       console.log("Unknown error in check authentication controller", error);
     }
     res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const refreshToken = async (req: Request, res: Response) => {
+  interface JWTPayload {
+    userId: string;
+  }
+  const refreshToken = req.cookies.refresh_token;
+  const refreshSecret = process.env.REFRESH_SECRET_TOKEN;
+
+  if (!refreshSecret) {
+    return res
+      .status(500)
+      .json({ message: "Server misconfiguration: missing refresh secret" });
+  }
+
+  if (!refreshToken) {
+    return res
+      .status(401)
+      .json({ message: "Unauthorized - Refresh Token Not Provided" });
+  }
+
+  try {
+    // Verify the refresh token
+    const decoded = jwt.verify(refreshToken, refreshSecret) as JWTPayload;
+
+    if (!decoded || !decoded.userId) {
+      return res
+        .status(403)
+        .json({ status: "failed", message: "Invalid Token payload" });
+    }
+
+    req.userId = decoded.userId;
+
+    // Generate new access token
+    generateAccessToken(req.userId, res);
+
+    const user = await User.findById({ _id: req.userId });
+    res.status(200).json(user);
+  }catch (error) {
+    if (error instanceof Error) {
+      console.log("Error in check authentication controller: ", error.message);
+    } else {
+      console.log("Unknown error in check authentication controller", error);
+    }
+    res.status(403).json({
+      status: "failed",
+      message: "Unauthorized: Invalid or expired refresh token",
+    });
   }
 };

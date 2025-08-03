@@ -18,12 +18,28 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   isCheckingAuth: true,
   checkAuth: async () => {
     try {
+      // First try verifying current access token
       const res = await axiosInstance.get("/api/auth/verifyJWT");
       set({ authUser: res.data });
       get().connectSocket();
-    } catch (error) {
-      console.log("Error in checkAuth:", error);
-      set({ authUser: null });
+    } catch (error: any) {
+      // If verify failed, attempt refresh
+      if (
+        error.response &&
+        (error.response.status === 401 || error.response.status === 403)
+      ) {
+        try {
+          const refreshRes = await axiosInstance.get("/api/auth/refreshToken");
+          set({ authUser: refreshRes.data });
+          get().connectSocket();
+        } catch (refreshErr) {
+          console.log("Refresh failed:", refreshErr);
+          set({ authUser: null });
+        }
+      } else {
+        console.log("Error in checkAuth:", error);
+        set({ authUser: null });
+      }
     } finally {
       set({ isCheckingAuth: false });
     }
@@ -65,7 +81,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
 
   logout: async () => {
     try {
-      console.log(BASE_URL)
+      console.log(BASE_URL);
       await axiosInstance.post("/api/auth/logout");
       set({ authUser: null });
       toast.success("Logged out successfully");
@@ -101,13 +117,13 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     const socket = io(BASE_URL, {
       query: {
         userId: authUser._id,
-      }
+      },
     });
     socket.connect();
     set({ socket: socket });
     socket.on("getOnlineUsers", (userIds) => {
-      set({ onlineUsers: userIds })
-    })
+      set({ onlineUsers: userIds });
+    });
   },
   disconnectSocket: () => {
     if (get().socket?.connected) {
