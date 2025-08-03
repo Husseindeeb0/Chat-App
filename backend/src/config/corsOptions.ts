@@ -3,8 +3,7 @@ import { CorsOptions } from "cors";
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://litechat-frontend.onrender.com",
-  "https://litechats.netlify.app",
+  "https://litechat-70j2.onrender.com",
 ];
 
 const corsOptions: CorsOptions = {
